@@ -10,6 +10,7 @@ import Foundation
 
 
 extension Tensor where T: TensorData {
+  //TODO: Fix s.t whatever is put in will become whatever type T is (if possible)
   static func processValues(values: Any) -> ([T], [Int]) {
     var shape = [Int]()
     var flatValues = [T]()
@@ -30,6 +31,12 @@ extension Tensor where T: TensorData {
       } else if let value = values as? T {
         flatValues.append(value)
       } else if let value = values as? Double {
+        if let finalValue = Float(value) as? T {
+          flatValues.append(finalValue)
+        } else {
+          fatalError("Unsupported type: Failed double->float conversion")
+        }
+      } else if let value = values as? Int {
         if let finalValue = Float(value) as? T {
           flatValues.append(finalValue)
         } else {

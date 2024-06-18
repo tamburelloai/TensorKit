@@ -30,13 +30,16 @@ extension Tensor {
     }
   }
   
-  private func _adjustForNegativeIndexing(_ dim: Int) -> Int {
-    switch (dim < 0) {
-    case true: return (self.shape.count + dim)
-    case false: return (dim)
-    }
-  }
+//  func _adjustForNegativeIndexing(_ dim: Int) -> Int {
+//    switch (dim < 0) {
+//    case true: return (self.shape.count + dim)
+//    case false: return (dim)
+//    }
+//  } //TODO: OLD delete this if doesnt present any issue
   
+  func _adjustForNegativeIndexing(_ dim: Int) -> Int {
+      return dim < 0 ? dim + self.shape.count + 1 : dim
+  }
   ///When dim is given, a squeeze operation is done only in the given dimensions. If input is of shape:
   ///(A×1×B), squeeze(input, 0) leaves the tensor unchanged, but squeeze(input, 1) will squeeze the tensor to the shape (A×B).
   func squeeze(dims: [Int]) {

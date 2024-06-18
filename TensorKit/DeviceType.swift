@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum DeviceType {
+public enum DeviceType {
   case mps
   case cpu
 }

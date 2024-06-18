@@ -41,6 +41,7 @@ final class TensorMPSAdditionTests: XCTestCase {
     XCTAssert(zip(t1.data, t2.data).enumerated().allSatisfy {
       (idx, el) in el.0 + el.1 == output.data[idx]
     })
+    XCTAssertEqual(output.device, .mps)
   }
   
   func testNDAddition() {

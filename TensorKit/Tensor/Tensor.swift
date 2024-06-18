@@ -12,6 +12,8 @@ public struct Tensor<T:TensorData> {
   var strides: [Int]
   var device: DeviceType
   
+  var ndim: Int { return self.shape.count }
+  
   /// Subscript for indexing the tensor with **multiple** dimensions
   /// Example: Getting the (i,j) value - `Tensor[i, j]` => value at index (i, j)
   public subscript(indices: Int...) -> T {

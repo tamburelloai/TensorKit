@@ -199,5 +199,19 @@ final class TensorInitTests: XCTestCase {
       XCTAssertEqual(tensor.data[i], Float(testData[i]))
     }
   }
+ 
+  
+  //TODO: find proper place for this
+  func testNDimComputedVar() {
+    let t1 = rand(5, 10)
+    let t2 = rand(4, 5, 10)
+    let t3 = rand(1, 1, 5, 10)
+    let t4 = rand(10)
+    
+    XCTAssertEqual(t1.ndim, 2)
+    XCTAssertEqual(t2.ndim, 3)
+    XCTAssertEqual(t3.ndim, 4)
+    XCTAssertEqual(t4.ndim, 1)
+  }
   
 }
