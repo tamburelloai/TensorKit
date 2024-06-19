@@ -55,7 +55,7 @@ class MPSBackend: ObservableObject {
     }
     self.defaultLibrary = defaultLibrary
   }
-    
+  
   func createBufferFromTensor<T:TensorData&Numeric>(_ tensor: Tensor<T>) -> MTLBuffer {
     let dataSize: Int = tensor.data.count * MemoryLayout<T>.size
     return device.makeBuffer(bytes: tensor.data, length: dataSize, options: .storageModeShared)!
@@ -131,6 +131,44 @@ extension MPSBackend {
     return result
   }
   
+  func tiledMatMul<T:TensorData&Numeric>(_ lhs: Tensor<T>, _ rhs: Tensor<T>) -> Tensor<T> {
+    guard let commandBuffer = commandQueue.makeCommandBuffer(),
+          let commandEncoder = commandBuffer.makeComputeCommandEncoder(),
+          let computePipelineState = getComputePipeline(for: "tiledMatMul") else {
+      fatalError("Failed to create command buffer or command encoder")
+    }
+    let M = lhs.shape[0]
+    let K = lhs.shape[1]
+    let N = rhs.shape[1]
+    commandEncoder.setComputePipelineState(computePipelineState)
+    let bufferSizeA = M * K * MemoryLayout<Float>.size
+    let bufferSizeB = K * N * MemoryLayout<Float>.size
+    let bufferSizeC = M * N * MemoryLayout<Float>.size
+    let bufferA = device.makeBuffer(bytes: lhs.data, length: bufferSizeA, options: .storageModeShared)
+    let bufferB = device.makeBuffer(bytes: rhs.data, length: bufferSizeB, options: .storageModeShared)
+    let bufferC = device.makeBuffer(length: bufferSizeC, options: .storageModeShared)
+    let dimensions = [UInt32(M), UInt32(N), UInt32(K)]
+    let bufferDimensions = device.makeBuffer(bytes: dimensions, length: dimensions.count * MemoryLayout<UInt32>.size, options: .storageModeShared)
+    commandEncoder.setBuffer(bufferA, offset: 0, index: 0)
+    commandEncoder.setBuffer(bufferB, offset: 0, index: 1)
+    commandEncoder.setBuffer(bufferC, offset: 0, index: 2)
+    commandEncoder.setBuffer(bufferDimensions, offset: 0, index: 3)
+    let threadsPerThreadgroup = MTLSize(width: 16, height: 16, depth: 1)
+    let threadgroupsPerGrid = MTLSize(width: (N + 15) / 16, height: (M + 15) / 16, depth: 1)
+    commandEncoder.dispatchThreadgroups(threadgroupsPerGrid, threadsPerThreadgroup: threadsPerThreadgroup)
+    commandEncoder.endEncoding()
+    commandBuffer.commit()
+    commandBuffer.waitUntilCompleted()
+    
+    let resultShape: [Int] = [M, N]
+    var result: Tensor<T> = zeros(shape: resultShape)
+    let threadCount: Int = result.data.count
+    let resultPointer = bufferC?.contents().bindMemory(to: Float.self, capacity: threadCount)
+    result.data = Array(UnsafeBufferPointer(start: resultPointer, count: threadCount)) as! [T]
+    result.device = lhs.device
+    return result
+  }
+  
   func batchMatrixMultiply<T:TensorData&Numeric>(_ lhs: Tensor<T>, _ rhs: Tensor<T>) -> Tensor<T> {
     assert(lhs.shape == rhs.shape, "MPS.batchMatrixMultiply requires identical tensor shapes, got \(lhs.shape), \(rhs.shape)")
     var result: Tensor<T> = zeros(shape: lhs.shape)
@@ -174,7 +212,7 @@ extension MPSBackend {
     }
   }
   
-
+  
   func elementwiseAddition<T:TensorData&Numeric>(_ lhs: Tensor<T>, _ rhs: Tensor<T>) -> Tensor<T> {
     assert(lhs.shape == rhs.shape, "elementwiseAddition requires identical tensor shapes, got \(lhs.shape), \(rhs.shape)")
     var result: Tensor<T> = zeros(shape: lhs.shape)
@@ -286,12 +324,12 @@ extension MPSBackend {
     result.device = lhs.device
     return result
   }
-   
+  
 }
 
 // Broadcast MPS Operations
 extension MPSBackend {
-   func broadcastOperation<T:TensorData&Numeric&FloatingPoint>(_ lhs: Tensor<T>, _ rhs: Tensor<T>, _ operation: OperationType) -> Tensor<T> {
+  func broadcastOperation<T:TensorData&Numeric&FloatingPoint>(_ lhs: Tensor<T>, _ rhs: Tensor<T>, _ operation: OperationType) -> Tensor<T> {
     switch operation {
     case .add: return self._broadcastAdd(lhs, rhs)
     case .subtract: return self._broadcastSubtract(lhs, rhs)

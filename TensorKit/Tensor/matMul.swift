@@ -24,5 +24,18 @@ extension Tensor where T: TensorData & Numeric {
     else { fatalError() }
   }
   
+  static func tiledMatMul(_ lhs: Tensor<T>, _ rhs: Tensor<T>) -> Tensor<T> {
+    assert(lhs.device == rhs.device && rhs.device == .mps)
+    assert(lhs.ndim == 2 && rhs.ndim == 2, "fatal: Tensor.matMul requires 2D Tensors")
+    assert(lhs.shape[1] == rhs.shape[0], "fatal: Tensor.matMul requires matching inner dims, got \(lhs.shape) and \(rhs.shape)")
+    return MPSBackend.shared.tiledMatMul(lhs, rhs)
+  }
+  
+  func tiledMatMul(_ rhs: Tensor<T>) -> Tensor<T> {
+    assert(self.device == rhs.device && rhs.device == .mps)
+    assert(self.ndim == 2 && rhs.ndim == 2, "fatal: Tensor.matMul requires 2D Tensors")
+    assert(self.shape[1] == rhs.shape[0], "fatal: Tensor.matMul requires matching inner dims, got \(self.shape) and \(rhs.shape)")
+    return MPSBackend.shared.tiledMatMul(self, rhs)
+  }
   
 }

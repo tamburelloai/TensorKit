@@ -65,60 +65,96 @@ final class TensorMPSMatMulTests: XCTestCase {
   }
   
   func testMatMulIdentity() {
-      let device: DeviceType = .mps
-      let t1: Tensor<Float> = Tensor([
-        [1, 2, 3],
-        [4, 5, 6]
-      ]).to(device)
-      let identity: Tensor<Float> = Tensor([
-        [1, 0, 0],
-        [0, 1, 0],
-        [0, 0, 1]
-      ]).to(device)
-      
-      let result = t1.matMul(identity)
-      XCTAssertEqual(result.nestedArray() as! [[Float]], [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
-      XCTAssertEqual(result.data, t1.data)
-      XCTAssertEqual(result.shape, t1.shape)
-      XCTAssertEqual(result.device, device)
+    let device: DeviceType = .mps
+    let t1: Tensor<Float> = Tensor([
+      [1, 2, 3],
+      [4, 5, 6]
+    ]).to(device)
+    let identity: Tensor<Float> = Tensor([
+      [1, 0, 0],
+      [0, 1, 0],
+      [0, 0, 1]
+    ]).to(device)
+    
+    let result = t1.matMul(identity)
+    XCTAssertEqual(result.nestedArray() as! [[Float]], [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
+    XCTAssertEqual(result.data, t1.data)
+    XCTAssertEqual(result.shape, t1.shape)
+    XCTAssertEqual(result.device, device)
   }
   
   func testMatMulZeroMatrix() {
-      let device: DeviceType = .mps
-      let t1: Tensor<Float> = Tensor([
-        [1, 2],
-        [3, 4]
-      ]).to(device)
-      let zeroMatrix: Tensor<Float> = Tensor([
-        [0, 0],
-        [0, 0]
-      ]).to(device)
-      
-      let result = t1.matMul(zeroMatrix)
-      XCTAssertEqual(result.nestedArray() as! [[Float]], [[0.0, 0.0], [0.0, 0.0]])
-      XCTAssertEqual(result.data, [0.0, 0.0, 0.0, 0.0])
-      XCTAssertEqual(result.shape, [t1.shape[0], zeroMatrix.shape[1]])
-      XCTAssertEqual(result.device, device)
+    let device: DeviceType = .mps
+    let t1: Tensor<Float> = Tensor([
+      [1, 2],
+      [3, 4]
+    ]).to(device)
+    let zeroMatrix: Tensor<Float> = Tensor([
+      [0, 0],
+      [0, 0]
+    ]).to(device)
+    
+    let result = t1.matMul(zeroMatrix)
+    XCTAssertEqual(result.nestedArray() as! [[Float]], [[0.0, 0.0], [0.0, 0.0]])
+    XCTAssertEqual(result.data, [0.0, 0.0, 0.0, 0.0])
+    XCTAssertEqual(result.shape, [t1.shape[0], zeroMatrix.shape[1]])
+    XCTAssertEqual(result.device, device)
   }
- 
+  
+  func testStaticTiledMatMul() {
+    let device: DeviceType = .mps
+    let t1: Tensor<Float> = rand(50, 10).to(device)
+    let t2: Tensor<Float> = rand(10, 4).to(device)
+    let result = Tensor.tiledMatMul(t1, t2)
+    let cpuResult = Tensor.matMul(t1.to(.cpu), t2.to(.cpu))
+    XCTAssertEqual(result.shape, [t1.shape[0], t2.shape[1]])
+    XCTAssertEqual(result.device, device)
+    for i in (0..<result.data.count) {
+      XCTAssertEqual(result.data[i], cpuResult.data[i], accuracy: 0.99)
+    }
+  }
+  
+  func testMatMulPerformance() {
+    let device: DeviceType = .mps
+    let t1: Tensor<Float> = rand(50, 10).to(device)
+    let t2: Tensor<Float> = rand(10, 30).to(device)
+    self.measure {
+      for i in (0..<100) {
+        _ = Tensor.matMul(t1, t2)
+      }
+    }
+  }
+  
+  func testTiledMatMulPerformance() {
+    let device: DeviceType = .mps
+    let t1: Tensor<Float> = rand(50, 10).to(device)
+    let t2: Tensor<Float> = rand(10, 30).to(device)
+    self.measure {
+      for i in (0..<100) {
+        _ = Tensor.tiledMatMul(t1, t2)
+      }
+    }
+  }
+  
+  
   //TODO: fix matmul to allow for Int type
-//  func testMatMulDifferentDataTypes() {
-//      let device: DeviceType = .mps
-//      let t1: Tensor<Int> = Tensor([
-//        [1, 2],
-//        [3, 4]
-//      ]).to(device)
-//      let t2: Tensor<Int> = Tensor([
-//        [5, 6],
-//        [7, 8]
-//      ]).to(device)
-//      
-//      let result = t1.matMul(t2)
-//      XCTAssertEqual(result.nestedArray() as! [[Int]], [[19, 22], [43, 50]])
-//      XCTAssertEqual(result.data, [19, 22, 43, 50])
-//      XCTAssertEqual(result.shape, [t1.shape[0], t2.shape[1]])
-//      XCTAssertEqual(result.device, device)
-//  }
+  //  func testMatMulDifferentDataTypes() {
+  //      let device: DeviceType = .mps
+  //      let t1: Tensor<Int> = Tensor([
+  //        [1, 2],
+  //        [3, 4]
+  //      ]).to(device)
+  //      let t2: Tensor<Int> = Tensor([
+  //        [5, 6],
+  //        [7, 8]
+  //      ]).to(device)
+  //
+  //      let result = t1.matMul(t2)
+  //      XCTAssertEqual(result.nestedArray() as! [[Int]], [[19, 22], [43, 50]])
+  //      XCTAssertEqual(result.data, [19, 22, 43, 50])
+  //      XCTAssertEqual(result.shape, [t1.shape[0], t2.shape[1]])
+  //      XCTAssertEqual(result.device, device)
+  //  }
   
 }
 
