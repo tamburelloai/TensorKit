@@ -22,7 +22,7 @@ extension Tensor where T: TensorData{
 }
 
 extension Tensor where T: TensorData {
-  static func stack(_ tensors: [Tensor<T>], dim: Int) -> Tensor {
+  public static func stack(_ tensors: [Tensor<T>], dim: Int) -> Tensor {
     assert(!tensors.isEmpty)
     assert(validInputToStack(tensors))
     let resultShape: [Int] = _getStackShape(tensors, dim: dim)

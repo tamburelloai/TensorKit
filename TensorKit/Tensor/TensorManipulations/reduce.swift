@@ -8,7 +8,7 @@
 import Foundation
 
 extension Tensor where T: TensorData & Numeric & FloatingPoint {
-  func reduce(_ op: (T, T) -> T, dim: Int) -> Tensor<T> {
+  public func reduce(_ op: (T, T) -> T, dim: Int) -> Tensor<T> {
       // Set the output shape by reducing the dimension we'll combine into 1
       var outputShape = self.shape
       outputShape[dim] = 1

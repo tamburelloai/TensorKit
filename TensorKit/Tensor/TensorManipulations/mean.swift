@@ -8,14 +8,14 @@
 import Foundation
 
 extension Tensor<Float> {
-  func mean() -> Tensor<Float> {
+  public func mean() -> Tensor<Float> {
     assert(!data.isEmpty, "Fatal: Attempted to evaluate mean of an empty Tensor")
     let globalMean: Float = data.reduce(Float.zero, +) / Float(data.count)
     return Tensor(data: [globalMean], shape: [])
   }
   
   // Mean along a specific dimension
-  func mean(dim: Int, keepDim: Bool = false) -> Tensor<Float> {
+  public func mean(dim: Int, keepDim: Bool = false) -> Tensor<Float> {
     let N: Float = Float(self.shape[dim])
     switch keepDim {
     case true: return (self.reduce(+, dim: dim) / N)

@@ -12,7 +12,7 @@ extension Tensor {
   ///Returns a tensor with all specified dimensions of input of size 1 removed.
   ///For example, if input is of shape:
   ///(A×1×B×C×1×D) then the input.squeeze() will be of shape: (A×B×C×D).
-  func squeeze() -> Tensor {
+  public func squeeze() -> Tensor {
     var newTensor = self
     newTensor.shape = self.shape.filter { $0 != 1 }
     newTensor.strides = Tensor.calculateStrides(for: newTensor.shape) //TODO: clean this up to happen any time changes to shape are made in a Tensor
@@ -21,7 +21,7 @@ extension Tensor {
   
   ///When dim is given, a squeeze operation is done only in the given dimension(s). If input is of shape:
   ///(A×1×B), squeeze(input, 0) leaves the tensor unchanged, but squeeze(input, 1) will squeeze the tensor to the shape (A×B).
-  func squeeze(_ inputDim: Int) -> Tensor {
+  public func squeeze(_ inputDim: Int) -> Tensor {
     let dim: Int = _adjustForNegativeIndexing(inputDim)
     assert(self.shape.count > dim)
     switch (self.shape[dim] == 1) {
@@ -42,7 +42,7 @@ extension Tensor {
   }
   ///When dim is given, a squeeze operation is done only in the given dimensions. If input is of shape:
   ///(A×1×B), squeeze(input, 0) leaves the tensor unchanged, but squeeze(input, 1) will squeeze the tensor to the shape (A×B).
-  func squeeze(dims: [Int]) {
+  public func squeeze(dims: [Int]) {
     //TODO: Same as single dim squeeze but for multiple dims.
     // Not sure how id like to do this yet.
   }

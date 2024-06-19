@@ -7,10 +7,10 @@
 
 import Foundation
 public struct Tensor<T:TensorData> {
-  var data: [T]
-  var shape: [Int]
-  var strides: [Int]
-  var device: DeviceType
+  public var data: [T]
+  public var shape: [Int]
+  public var strides: [Int]
+  public var device: DeviceType
   
   var ndim: Int { return self.shape.count }
   

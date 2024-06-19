@@ -29,7 +29,7 @@ extension Tensor where T: TensorData{
 
 
 extension Tensor where T: TensorData & Numeric {
-  static func concat(_ tensors: [Tensor<T>], dim: Int) -> Tensor {
+  public static func concat(_ tensors: [Tensor<T>], dim: Int) -> Tensor {
     assert(!tensors.isEmpty)
     assert(validInputToConcat(tensors, dim: dim))
     let resultShape: [Int] = Tensor._getConcatShape(tensors, dim: dim)
