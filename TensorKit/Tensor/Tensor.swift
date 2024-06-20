@@ -40,7 +40,7 @@ public struct Tensor<T:TensorData> {
     return indices.enumerated().reduce(0) { $0 + $1.element * strides[$1.offset] }
   }
   
-  func to(_ device: DeviceType) -> Tensor {
+  public func to(_ device: DeviceType) -> Tensor {
     var newTensor = self
     newTensor.device = device
     return newTensor

@@ -88,6 +88,11 @@
 		D6B720B22C2233A600EB115D /* unsqueeze.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6B720B12C2233A600EB115D /* unsqueeze.swift */; };
 		D6B720B42C223BA500EB115D /* TensorUnsqueezeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6B720B32C223BA500EB115D /* TensorUnsqueezeTests.swift */; };
 		D6B720B82C2258D400EB115D /* tiledMatMul.metal in Sources */ = {isa = PBXBuildFile; fileRef = D6B720B72C2258D400EB115D /* tiledMatMul.metal */; };
+		D6B721022C239C8400EB115D /* leakyReLU.metal in Sources */ = {isa = PBXBuildFile; fileRef = D6B720FC2C239C8300EB115D /* leakyReLU.metal */; };
+		D6B721032C239C8400EB115D /* relu.metal in Sources */ = {isa = PBXBuildFile; fileRef = D6B720FD2C239C8300EB115D /* relu.metal */; };
+		D6B721042C239C8400EB115D /* sigmoidBackward.metal in Sources */ = {isa = PBXBuildFile; fileRef = D6B720FE2C239C8300EB115D /* sigmoidBackward.metal */; };
+		D6B721052C239C8400EB115D /* sigmoidForward.metal in Sources */ = {isa = PBXBuildFile; fileRef = D6B720FF2C239C8300EB115D /* sigmoidForward.metal */; };
+		D6B721062C239C8400EB115D /* tanh.metal in Sources */ = {isa = PBXBuildFile; fileRef = D6B721002C239C8300EB115D /* tanh.metal */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -183,6 +188,11 @@
 		D6B720B12C2233A600EB115D /* unsqueeze.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = unsqueeze.swift; sourceTree = "<group>"; };
 		D6B720B32C223BA500EB115D /* TensorUnsqueezeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TensorUnsqueezeTests.swift; sourceTree = "<group>"; };
 		D6B720B72C2258D400EB115D /* tiledMatMul.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = tiledMatMul.metal; sourceTree = "<group>"; };
+		D6B720FC2C239C8300EB115D /* leakyReLU.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = leakyReLU.metal; sourceTree = "<group>"; };
+		D6B720FD2C239C8300EB115D /* relu.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = relu.metal; sourceTree = "<group>"; };
+		D6B720FE2C239C8300EB115D /* sigmoidBackward.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = sigmoidBackward.metal; sourceTree = "<group>"; };
+		D6B720FF2C239C8300EB115D /* sigmoidForward.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = sigmoidForward.metal; sourceTree = "<group>"; };
+		D6B721002C239C8300EB115D /* tanh.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = tanh.metal; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -369,6 +379,7 @@
 		D629A8C12C1F9E1900ECAC12 /* MPSBackend */ = {
 			isa = PBXGroup;
 			children = (
+				D6B721012C239C8300EB115D /* ScorchKernels */,
 				D629A8BC2C1F9E1900ECAC12 /* Kernels */,
 				D629A8BE2C1F9E1900ECAC12 /* makePipelineState.swift */,
 				D629A8BF2C1F9E1900ECAC12 /* MPSBackend.swift */,
@@ -410,6 +421,18 @@
 				D629A98F2C211C4300ECAC12 /* TensorMPSDivisionTests.swift */,
 			);
 			path = MPSArithmeticTests;
+			sourceTree = "<group>";
+		};
+		D6B721012C239C8300EB115D /* ScorchKernels */ = {
+			isa = PBXGroup;
+			children = (
+				D6B720FC2C239C8300EB115D /* leakyReLU.metal */,
+				D6B720FD2C239C8300EB115D /* relu.metal */,
+				D6B720FE2C239C8300EB115D /* sigmoidBackward.metal */,
+				D6B720FF2C239C8300EB115D /* sigmoidForward.metal */,
+				D6B721002C239C8300EB115D /* tanh.metal */,
+			);
+			path = ScorchKernels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -535,8 +558,10 @@
 				D629A8252C1E39FC00ECAC12 /* TensorKit.docc in Sources */,
 				D629A8712C1E3AA400ECAC12 /* rand.swift in Sources */,
 				D629A8672C1E3A9000ECAC12 /* variance.swift in Sources */,
+				D6B721022C239C8400EB115D /* leakyReLU.metal in Sources */,
 				D629A8AC2C1F97FC00ECAC12 /* DeviceType.swift in Sources */,
 				D629A86F2C1E3AA400ECAC12 /* eye.swift in Sources */,
+				D6B721052C239C8400EB115D /* sigmoidForward.metal in Sources */,
 				D629A8D42C1F9E1900ECAC12 /* elementwiseSubtraction.metal in Sources */,
 				D629A85C2C1E3A9000ECAC12 /* item.swift in Sources */,
 				D6B720B02C22289D00EB115D /* dot.swift in Sources */,
@@ -545,6 +570,7 @@
 				D629A8722C1E3AA400ECAC12 /* randn.swift in Sources */,
 				D629A8AE2C1F9BC800ECAC12 /* ShapeAlignment.swift in Sources */,
 				D629A8612C1E3A9000ECAC12 /* sqrt.swift in Sources */,
+				D6B721062C239C8400EB115D /* tanh.metal in Sources */,
 				D629A8652C1E3A9000ECAC12 /* TensorData.swift in Sources */,
 				D629A8542C1E3A9000ECAC12 /* reduce.swift in Sources */,
 				D629A8D62C1F9E1900ECAC12 /* makePipelineState.swift in Sources */,
@@ -555,11 +581,13 @@
 				D629A8D22C1F9E1900ECAC12 /* elementwiseDivision.metal in Sources */,
 				D6B720A02C220D1800EB115D /* dot.metal in Sources */,
 				D629A8572C1E3A9000ECAC12 /* stack.swift in Sources */,
+				D6B721032C239C8400EB115D /* relu.metal in Sources */,
 				D629A8D02C1F9E1900ECAC12 /* broadcastAddition.metal in Sources */,
 				D629A8552C1E3A9000ECAC12 /* slice.swift in Sources */,
 				D629A8B32C1F9C4700ECAC12 /* Bool.swift in Sources */,
 				D629A8D72C1F9E1900ECAC12 /* MPSBackend.swift in Sources */,
 				D6B720A62C22114C00EB115D /* matMul.swift in Sources */,
+				D6B721042C239C8400EB115D /* sigmoidBackward.metal in Sources */,
 				D629A8642C1E3A9000ECAC12 /* TensorBroadcasting.swift in Sources */,
 				D629A8632C1E3A9000ECAC12 /* TensorArithmetic.swift in Sources */,
 				D629A8B52C1F9C4700ECAC12 /* Float.swift in Sources */,

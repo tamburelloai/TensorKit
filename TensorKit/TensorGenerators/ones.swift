@@ -13,6 +13,6 @@ public func ones<T: TensorData>(shape: [Int]) -> Tensor<T> where T: Numeric {
   return Tensor(data: onesData, shape: shape)
 }
 
-func ones<T: TensorData>(_ shape: Int...) -> Tensor<T> where T: Numeric {
+public func ones<T: TensorData>(_ shape: Int...) -> Tensor<T> where T: Numeric {
   ones(shape: shape)
 }

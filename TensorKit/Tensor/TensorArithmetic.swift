@@ -16,10 +16,10 @@ enum OperationType {
 
 
 extension Tensor where T: TensorData & Numeric & FloatingPoint {
-  static func +(_ lhs: Tensor<T>, _ rhs: Tensor<T>) -> Tensor<T> { return performOperation(lhs, rhs, .add) }
-  static func -(_ lhs: Tensor<T>, _ rhs: Tensor<T>) -> Tensor<T> { return performOperation(lhs, rhs, .subtract) }
-  static func *(_ lhs: Tensor<T>, _ rhs: Tensor<T>) -> Tensor<T> { return performOperation(lhs, rhs, .multiply) }
-  static func /(_ lhs: Tensor<T>, _ rhs: Tensor<T>) -> Tensor<T> { return performOperation(lhs, rhs, .divide) }
+  public static func +(_ lhs: Tensor<T>, _ rhs: Tensor<T>) -> Tensor<T> { return performOperation(lhs, rhs, .add) }
+  public static func -(_ lhs: Tensor<T>, _ rhs: Tensor<T>) -> Tensor<T> { return performOperation(lhs, rhs, .subtract) }
+  public static func *(_ lhs: Tensor<T>, _ rhs: Tensor<T>) -> Tensor<T> { return performOperation(lhs, rhs, .multiply) }
+  public static func /(_ lhs: Tensor<T>, _ rhs: Tensor<T>) -> Tensor<T> { return performOperation(lhs, rhs, .divide) }
   
   static private func performOperation(_ lhs: Tensor<T>, _ rhs: Tensor<T>, _ operation: OperationType) -> Tensor<T> {
     switch shapeAlignment(lhs, rhs) {

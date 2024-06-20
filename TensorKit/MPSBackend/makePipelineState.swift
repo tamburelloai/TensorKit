@@ -26,7 +26,7 @@ extension MPSBackend {
     return "Shader function ***\(shaderFunctionName)*** not found in the default library."
   }
   
-  func getComputePipeline(for shaderFunctionName: String) -> MTLComputePipelineState? {
+  public func getComputePipeline(for shaderFunctionName: String) -> MTLComputePipelineState? {
     if let pipeline = computePipelines[shaderFunctionName] { return pipeline } else {
       let pipeline = makeComputePipelineState(shaderFunctionName: shaderFunctionName)
       self.computePipelines[shaderFunctionName] = pipeline

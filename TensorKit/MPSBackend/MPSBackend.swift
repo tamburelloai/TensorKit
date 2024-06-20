@@ -18,14 +18,14 @@ import Metal
 
 
 
-class MPSBackend: ObservableObject {
-  var device: MTLDevice!
-  var commandQueue: MTLCommandQueue!
-  var defaultLibrary: MTLLibrary!
-  var computePipelineState: MTLComputePipelineState!
-  var initializationError: Error?
-  var computePipelines: [String: MTLComputePipelineState] = [:]
-  static let shared = MPSBackend() // singleton instance
+public class MPSBackend {
+  public var device: MTLDevice!
+  public var commandQueue: MTLCommandQueue!
+  public var defaultLibrary: MTLLibrary!
+  public var computePipelineState: MTLComputePipelineState!
+  public var initializationError: Error?
+  public var computePipelines: [String: MTLComputePipelineState] = [:]
+  public static let shared = MPSBackend() // singleton instance
   
   
   private init() {
@@ -56,7 +56,7 @@ class MPSBackend: ObservableObject {
     self.defaultLibrary = defaultLibrary
   }
   
-  func createBufferFromTensor<T:TensorData&Numeric>(_ tensor: Tensor<T>) -> MTLBuffer {
+  public func createBufferFromTensor<T:TensorData&Numeric>(_ tensor: Tensor<T>) -> MTLBuffer {
     let dataSize: Int = tensor.data.count * MemoryLayout<T>.size
     return device.makeBuffer(bytes: tensor.data, length: dataSize, options: .storageModeShared)!
   }
