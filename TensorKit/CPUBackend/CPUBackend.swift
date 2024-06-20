@@ -154,28 +154,28 @@ extension CPUBackend {
   
   
   
-  //  func batchMatMul(lhs: Tensor, rhs: Tensor) -> Tensor? {
-  //    let batchSize = lhs.shape[0]
-  //    let N = lhs.shape[1]
-  //    let M = lhs.shape[2]
-  //    let P = rhs.shape[2]
-  //    let outShape = [batchSize, N, P]
-  //
-  //    // Implementation for batch matrix product
-  //    var result = [Float](repeating: 0, count: batchSize * N * P)
-  //
-  //    for b in 0..<batchSize {
-  //      for i in 0..<N {
-  //        for j in 0..<P {
-  //          var sum: Float = 0
-  //          for k in 0..<M {
-  //            sum += lhs.data[b * N * M + i * M + k] * rhs.data[b * M * P + k * P + j]
-  //          }
-  //          result[b * N * P + i * P + j] = sum
-  //        }
-  //      }
-  //    }
-  //
-  //    return Tensor(values: result, shape: outShape, device: lhs.device)
-  // }
+  func batchMatMul(lhs: Tensor<Float>, rhs: Tensor<Float>) -> Tensor<Float> {
+    let batchSize = lhs.shape[0]
+    let N = lhs.shape[1]
+    let M = lhs.shape[2]
+    let P = rhs.shape[2]
+    let outShape = [batchSize, N, P]
+    
+    // Implementation for batch matrix product
+    var result = [Float](repeating: 0, count: batchSize * N * P)
+    
+    for b in 0..<batchSize {
+      for i in 0..<N {
+        for j in 0..<P {
+          var sum: Float = 0
+          for k in 0..<M {
+            sum += lhs.data[b * N * M + i * M + k] * rhs.data[b * M * P + k * P + j]
+          }
+          result[b * N * P + i * P + j] = sum
+        }
+      }
+    }
+    
+    return Tensor(data: result, shape: outShape, device: lhs.device)
+  }
 }

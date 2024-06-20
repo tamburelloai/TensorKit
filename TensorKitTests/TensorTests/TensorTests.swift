@@ -33,5 +33,38 @@ final class TensorTests: XCTestCase {
     }
   }
   
+  func testElement() {
+    let x: Tensor<Float> = Tensor(data: [1.0, 2, 3, 4], shape: [4])
+    XCTAssertEqual(x.element(at: [0]), Float(1.0))
+    XCTAssertEqual(x.element(at: [1]), Float(2.0))
+    XCTAssertEqual(x.element(at: [2]), Float(3.0))
+    XCTAssertEqual(x.element(at: [3]), Float(4.0))
+  }
+  
+  func testElement2D() {
+    let x: Tensor<Float> = Tensor([
+    [1.0, 2, 3, 4],
+    [1.0, 2, 3, 4],
+    [1.0, 2, 3, 4]])
+    XCTAssertEqual(x.element(at: [0, 1]), Float(2.0))
+    XCTAssertEqual(x.element(at: [1, 3]), Float(4.0))
+    XCTAssertEqual(x.element(at: [1, 1]), Float(2.0))
+    XCTAssertEqual(x.element(at: [2, 1]), Float(2.0))
+  }
+  
+  func testIndexSetter() {
+    var x: Tensor<Float> = Tensor([
+    [1.0, 2, 3, 4],
+    [1.0, 2, 3, 4],
+    [1.0, 2, 3, 4]])
+    x[0, 0] = Float(69.0)
+    x[2, 2] = Float(14.0)
+
+    XCTAssertEqual(x.element(at: [0, 0]), Float(69.0))
+    XCTAssertEqual(x.element(at: [1, 3]), Float(4.0))
+    XCTAssertEqual(x.element(at: [1, 1]), Float(2.0))
+    XCTAssertEqual(x.element(at: [2, 2]), Float(14.0))
+  }
+  
   
 }

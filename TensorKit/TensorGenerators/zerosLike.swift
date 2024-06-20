@@ -14,3 +14,5 @@ public func zerosLike<T: TensorData>(_ tensor: Tensor<T>) -> Tensor<T> where T: 
   return Tensor(data: zerosData, shape: tensor.shape, device: tensor.device)
 }
 
+
+

@@ -12,7 +12,7 @@ extension Tensor {
   ///(A×1×B), squeeze(input, 0) leaves the tensor unchanged, but squeeze(input, 1) will squeeze the tensor to the shape (A×B).
   public func unsqueeze(_ inputDim: Int) -> Tensor {
     var newTensor = self
-    let dim: Int = _adjustForNegativeIndexing(inputDim)
+    let dim: Int = _adjustForNegativeIndexing(inputDim, offset: 1)
     // Validate the dimension
     precondition(dim >= 0 && dim <= self.shape.count, "Dimension out of range")
     // Create the new shape by inserting 1 at the specified dimension

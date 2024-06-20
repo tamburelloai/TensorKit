@@ -30,21 +30,19 @@ extension Tensor {
     }
   }
   
-//  func _adjustForNegativeIndexing(_ dim: Int) -> Int {
-//    switch (dim < 0) {
-//    case true: return (self.shape.count + dim)
-//    case false: return (dim)
-//    }
-//  } //TODO: OLD delete this if doesnt present any issue
-  
-  func _adjustForNegativeIndexing(_ dim: Int) -> Int {
-      return dim < 0 ? dim + self.shape.count + 1 : dim
+  func _adjustForNegativeIndexing(_ dim: Int, offset: Int = 0) -> Int {
+    return dim < 0 ? dim + self.shape.count + offset : dim
   }
   ///When dim is given, a squeeze operation is done only in the given dimensions. If input is of shape:
   ///(A×1×B), squeeze(input, 0) leaves the tensor unchanged, but squeeze(input, 1) will squeeze the tensor to the shape (A×B).
-  public func squeeze(dims: [Int]) {
-    //TODO: Same as single dim squeeze but for multiple dims.
-    // Not sure how id like to do this yet.
+  public func squeeze(dims: [Int]) -> Tensor {
+    var dimsToSqueeze: [Int] = dims
+    var newTensor: Tensor? = nil
+    while (!dimsToSqueeze.isEmpty) {
+      newTensor = squeeze(dimsToSqueeze.popLast()!)
+    }
+    guard let result = newTensor else { fatalError() }
+    return result
   }
   
   private func _squeezeAtDim(_ dim: Int) -> Tensor {
@@ -58,5 +56,21 @@ extension Tensor {
     newTensor.shape = newShape
     newTensor.strides = Tensor.calculateStrides(for: newTensor.shape)
     return newTensor
+  }
+  
+  public mutating func squeeze(_ inputDim: Int, inplace: Bool) {
+    let dim: Int = _adjustForNegativeIndexing(inputDim)
+    switch (self.shape[dim] == 1) {
+    case false: return
+    default:
+      var newShape: [Int] = []
+      for (idx, element) in self.shape.enumerated() {
+        if idx != dim {
+          newShape.append(element)
+        }
+      }
+      self.shape = newShape
+      self.strides = Tensor.calculateStrides(for: self.shape)
+    }
   }
 }

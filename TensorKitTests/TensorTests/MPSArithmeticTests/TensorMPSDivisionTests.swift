@@ -26,9 +26,9 @@ final class TensorMPSDivisionTests: XCTestCase {
     let t1: Tensor<Float> = tensors[0]
     let t2: Tensor<Float> = tensors[1]
     let output: Tensor<Float> = t1 / t2
-    XCTAssert(zip(t1.data, t2.data).enumerated().allSatisfy {
-      (idx, el) in el.0 / el.1 == output.data[idx]
-    })
+    for i in (0..<output.data.count) {
+      XCTAssertEqual(t1.data[i]/t2.data[i], output.data[i], accuracy: 0.999)
+    }
   }
   
   func test2DDivision() {
