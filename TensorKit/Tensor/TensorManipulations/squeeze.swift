@@ -15,7 +15,7 @@ extension Tensor {
   public func squeeze() -> Tensor {
     var newTensor = self
     newTensor.shape = self.shape.filter { $0 != 1 }
-    newTensor.strides = Tensor.calculateStrides(for: newTensor.shape) //TODO: clean this up to happen any time changes to shape are made in a Tensor
+    newTensor.strides = Tensor.calculateStrides(for: newTensor.shape)
     return newTensor
   }
   

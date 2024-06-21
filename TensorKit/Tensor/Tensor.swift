@@ -8,6 +8,8 @@
 
 
 import Foundation
+
+
 public struct Tensor<T:TensorData> {
   public var data: [T]
   public var shape: [Int]
@@ -48,19 +50,26 @@ public struct Tensor<T:TensorData> {
     return newTensor
   }
   
-  //  TODO: fix this T->U Mapping issue on first line may have to create Type.init() for Int, Bool, and Float
-  //  public func astype<U: TensorData>(_ type: U.Type) -> Tensor<U> {
-  //  let convertedData = self.data.compactMap { U($0) ?? 0 }
-  //  if convertedData.count != data.count { fatalError() }
-  //  return Tensor<U>(data: convertedData, shape: self.shape, device: self.device)
-  //}
-  
-  // TODO: fix or extent the types to call respective powf powd , etc.
-  func pow<U:Numeric>(_ tensor: Tensor<U>, _ exponent: U) -> Tensor<U> {ones(1)}
+  func astype<U: TensorData>(_ type: TensorType) -> Tensor<U> {
+    switch type {
+    case .bool:
+      guard let newData = data.map({ Bool($0) }) as? [U] else { fatalError("Conversion failed") }
+      return Tensor<U>(newData)
+    case .int:
+      guard let newData = data.map({ Int($0) }) as? [U] else { fatalError("Conversion failed") }
+      return Tensor<U>(newData)
+    case .float:
+      guard let newData = data.map({ Float($0) }) as? [U] else { fatalError("Conversion failed") }
+      return Tensor<U>(newData)
+    }
+  }
 }
+
+
 
 extension Tensor: CustomStringConvertible {
   public var description: String {
     return "\(self.nestedArray())"
   }
 }
+

@@ -40,7 +40,7 @@ extension Tensor<Float> {
     let scaleFactor: Float = (1/Float(max(0, N-correction)))
     var dimMeans: Tensor<Float> = self.mean(dim: dim, keepDim: true)
     var dimDifferences: Tensor<Float> = self - dimMeans
-    let meanDeltaSquared: Tensor<Float> = dimDifferences*dimDifferences //TODO: power function integration
+    let meanDeltaSquared: Tensor<Float> = pow(dimDifferences, 2)
     let result: Tensor<Float> = scaleFactor * meanDeltaSquared.reduce(+, dim: dim)
     switch keepDim {
     case true: return result

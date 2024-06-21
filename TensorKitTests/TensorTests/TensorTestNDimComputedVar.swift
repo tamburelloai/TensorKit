@@ -1,15 +1,14 @@
 //
-//  TensorAsTypeTests.swift
+//  TensorTestNDimComputedVar.swift
 //  TensorKitTests
 //
-//  Created by Michael Tamburello on 6/20/24.
+//  Created by Michael Tamburello on 6/21/24.
 //
 
 import XCTest
-import Foundation
 @testable import TensorKit
 
-final class TensorAsTypeTests: XCTestCase {
+final class TensorTestNDimComputedVar: XCTestCase {
   
   override func setUpWithError() throws {
     // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -34,15 +33,16 @@ final class TensorAsTypeTests: XCTestCase {
     }
   }
   
-  func testFloatToInt() {
-    let x: Tensor<Float> = Tensor([1.0, 2.0, 3.0, 4.0])
-    let y: Tensor<Int> = x.astype(.int)
-    XCTAssertEqual(y.data, [1, 2, 3, 4])
-    let a: Tensor<Int> = Tensor([1, 2])
-    let b: Tensor<Float> = a.astype(.float)
-    XCTAssertEqual(b.data, [1.0, 2.0])
-
+  func testNDimComputedVar() {
+    let t1 = rand(5, 10)
+    let t2 = rand(4, 5, 10)
+    let t3 = rand(1, 1, 5, 10)
+    let t4 = rand(10)
+    
+    XCTAssertEqual(t1.ndim, 2)
+    XCTAssertEqual(t2.ndim, 3)
+    XCTAssertEqual(t3.ndim, 4)
+    XCTAssertEqual(t4.ndim, 1)
   }
-  
   
 }

@@ -71,21 +71,27 @@ final class TensorMPSDotProductTests: XCTestCase {
   }
   
   
-  func testDotDifferentDataTypes() {
+  func testDotProduct_2DInput_IntTensor_MPS() {
     let device: DeviceType = .mps
-    let t1: Tensor<Int> = Tensor([
-      [1, 2],
-      [3, 4]
-    ]).to(device)
-    let t2: Tensor<Int> = Tensor([
-      [5, 6],
-      [7, 8]
-    ]).to(device)
-    
-    let result: Tensor<Int> = t1.matMul(t2)
-    XCTAssertEqual(result.nestedArray() as! [[Int]], [[19, 22], [43, 50]])
-    XCTAssertEqual(result.data, [19, 22, 43, 50])
-    XCTAssertEqual(result.shape, [t1.shape[0], t2.shape[1]])
+    let t1: Tensor<Int> = Tensor(data: [1, 2, 3, 4], shape: [1, 4], device: .mps)
+    let t2: Tensor<Int> = Tensor(data: [4, 7, 3, 4], shape: [4, 1]).to(device)
+    let result: Tensor<Int> = t1.dot(t2)
+    let trueProductValue: Int = 43
+    XCTAssertEqual(result.item(), trueProductValue)
+    XCTAssertEqual(result.data, [trueProductValue])
+    XCTAssertEqual(result.shape, [1, 1])
+    XCTAssertEqual(result.device, device)
+  }
+  
+  func testDotProduct_1DInput_IntTensor_MPS() {
+    let device: DeviceType = .mps
+    let t1: Tensor<Int> = Tensor(data: [1, 2, 3, 4], shape:  [4], device: .mps)
+    let t2: Tensor<Int> = Tensor(data: [4, 7, 3, 4], shape: [4]).to(device)
+    let result: Tensor<Int> = t1.dot(t2)
+    let trueProductValue: Int = 43
+    XCTAssertEqual(result.item(), trueProductValue)
+    XCTAssertEqual(result.data, [trueProductValue])
+    XCTAssertEqual(result.shape, [1])
     XCTAssertEqual(result.device, device)
   }
   

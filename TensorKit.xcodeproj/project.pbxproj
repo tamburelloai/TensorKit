@@ -80,7 +80,10 @@
 		D65B75842C24AA0B00667D79 /* TensorSqueezeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65B75832C24AA0B00667D79 /* TensorSqueezeTests.swift */; };
 		D65B75862C24B08600667D79 /* ScalarTensorArithmeticTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65B75852C24B08600667D79 /* ScalarTensorArithmeticTests.swift */; };
 		D65B75892C24C82300667D79 /* TensorAsTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65B75882C24C82300667D79 /* TensorAsTypeTests.swift */; };
-		D6B720A02C220D1800EB115D /* dot.metal in Sources */ = {isa = PBXBuildFile; fileRef = D6B7209F2C220D1800EB115D /* dot.metal */; };
+		D65B758D2C26183000667D79 /* TensorTestNDimComputedVar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65B758C2C26183000667D79 /* TensorTestNDimComputedVar.swift */; };
+		D65B758F2C261F5000667D79 /* pow.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65B758E2C261F5000667D79 /* pow.swift */; };
+		D65B75912C261FAD00667D79 /* powTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65B75902C261FAD00667D79 /* powTests.swift */; };
+		D65B75932C26304D00667D79 /* TensorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65B75922C26304D00667D79 /* TensorType.swift */; };
 		D6B720A22C220D2900EB115D /* matMul.metal in Sources */ = {isa = PBXBuildFile; fileRef = D6B720A12C220D2900EB115D /* matMul.metal */; };
 		D6B720A42C220D3C00EB115D /* batchMatMul.metal in Sources */ = {isa = PBXBuildFile; fileRef = D6B720A32C220D3C00EB115D /* batchMatMul.metal */; };
 		D6B720A62C22114C00EB115D /* matMul.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6B720A52C22114C00EB115D /* matMul.swift */; };
@@ -184,7 +187,10 @@
 		D65B75832C24AA0B00667D79 /* TensorSqueezeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TensorSqueezeTests.swift; sourceTree = "<group>"; };
 		D65B75852C24B08600667D79 /* ScalarTensorArithmeticTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalarTensorArithmeticTests.swift; sourceTree = "<group>"; };
 		D65B75882C24C82300667D79 /* TensorAsTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TensorAsTypeTests.swift; sourceTree = "<group>"; };
-		D6B7209F2C220D1800EB115D /* dot.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = dot.metal; sourceTree = "<group>"; };
+		D65B758C2C26183000667D79 /* TensorTestNDimComputedVar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TensorTestNDimComputedVar.swift; sourceTree = "<group>"; };
+		D65B758E2C261F5000667D79 /* pow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pow.swift; sourceTree = "<group>"; };
+		D65B75902C261FAD00667D79 /* powTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = powTests.swift; sourceTree = "<group>"; };
+		D65B75922C26304D00667D79 /* TensorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TensorType.swift; sourceTree = "<group>"; };
 		D6B720A12C220D2900EB115D /* matMul.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = matMul.metal; sourceTree = "<group>"; };
 		D6B720A32C220D3C00EB115D /* batchMatMul.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = batchMatMul.metal; sourceTree = "<group>"; };
 		D6B720A52C22114C00EB115D /* matMul.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = matMul.swift; sourceTree = "<group>"; };
@@ -263,8 +269,6 @@
 				D629A8902C1E3B0000ECAC12 /* TensorGeneratorsTests */,
 				D629A88A2C1E3B0000ECAC12 /* TensorTests */,
 				D629A82F2C1E39FC00ECAC12 /* TensorKitTests.swift */,
-				D6B720AB2C2226CC00EB115D /* TensorMPSDotProductTests.swift */,
-				D6B720AD2C2226ED00EB115D /* TensorCPUDotProductTests.swift */,
 			);
 			path = TensorKitTests;
 			sourceTree = "<group>";
@@ -302,6 +306,8 @@
 				D629A8502C1E3A9000ECAC12 /* variance.swift */,
 				D6B720A52C22114C00EB115D /* matMul.swift */,
 				D6B720AF2C22289D00EB115D /* dot.swift */,
+				D65B758E2C261F5000667D79 /* pow.swift */,
+				D65B75922C26304D00667D79 /* TensorType.swift */,
 			);
 			path = Tensor;
 			sourceTree = "<group>";
@@ -322,6 +328,8 @@
 		D629A88A2C1E3B0000ECAC12 /* TensorTests */ = {
 			isa = PBXGroup;
 			children = (
+				D65B758B2C260BBE00667D79 /* MPSMatrixOpsTests */,
+				D65B758A2C260BAA00667D79 /* CPUMatrixOpsTests */,
 				D629A8762C1E3B0000ECAC12 /* calculateStridesTest.swift */,
 				D629A8782C1E3B0000ECAC12 /* nestedArrayTest.swift */,
 				D629A8792C1E3B0000ECAC12 /* processValuesTest.swift */,
@@ -339,13 +347,13 @@
 				D629A8892C1E3B0000ECAC12 /* transposeTests.swift */,
 				D629A98C2C211AC400ECAC12 /* MPSArithmeticTests */,
 				D629A98B2C211A3E00ECAC12 /* CPUArithmeticTests */,
-				D6B720A72C22118D00EB115D /* TensorMPSMatMulTests.swift */,
-				D6B720A92C2223EF00EB115D /* TensorCPUMatMulTests.swift */,
 				D6B720B32C223BA500EB115D /* TensorUnsqueezeTests.swift */,
 				D65B75812C24A75800667D79 /* ZerosLikeTests.swift */,
 				D65B75832C24AA0B00667D79 /* TensorSqueezeTests.swift */,
 				D65B75852C24B08600667D79 /* ScalarTensorArithmeticTests.swift */,
 				D65B75882C24C82300667D79 /* TensorAsTypeTests.swift */,
+				D65B758C2C26183000667D79 /* TensorTestNDimComputedVar.swift */,
+				D65B75902C261FAD00667D79 /* powTests.swift */,
 			);
 			path = TensorTests;
 			sourceTree = "<group>";
@@ -380,7 +388,6 @@
 				D629A8B82C1F9E1900ECAC12 /* elementwiseDivision.metal */,
 				D629A8B92C1F9E1900ECAC12 /* elementwiseMultiplication.metal */,
 				D629A8BA2C1F9E1900ECAC12 /* elementwiseSubtraction.metal */,
-				D6B7209F2C220D1800EB115D /* dot.metal */,
 				D6B720A12C220D2900EB115D /* matMul.metal */,
 				D6B720A32C220D3C00EB115D /* batchMatMul.metal */,
 				D6B720B72C2258D400EB115D /* tiledMatMul.metal */,
@@ -433,6 +440,24 @@
 				D629A98F2C211C4300ECAC12 /* TensorMPSDivisionTests.swift */,
 			);
 			path = MPSArithmeticTests;
+			sourceTree = "<group>";
+		};
+		D65B758A2C260BAA00667D79 /* CPUMatrixOpsTests */ = {
+			isa = PBXGroup;
+			children = (
+				D6B720A92C2223EF00EB115D /* TensorCPUMatMulTests.swift */,
+				D6B720AD2C2226ED00EB115D /* TensorCPUDotProductTests.swift */,
+			);
+			path = CPUMatrixOpsTests;
+			sourceTree = "<group>";
+		};
+		D65B758B2C260BBE00667D79 /* MPSMatrixOpsTests */ = {
+			isa = PBXGroup;
+			children = (
+				D6B720A72C22118D00EB115D /* TensorMPSMatMulTests.swift */,
+				D6B720AB2C2226CC00EB115D /* TensorMPSDotProductTests.swift */,
+			);
+			path = MPSMatrixOpsTests;
 			sourceTree = "<group>";
 		};
 		D6B721012C239C8300EB115D /* ScorchKernels */ = {
@@ -562,6 +587,7 @@
 				D629A8582C1E3A9000ECAC12 /* transpose.swift in Sources */,
 				D629A8D12C1F9E1900ECAC12 /* elementwiseAddition.metal in Sources */,
 				D629A8602C1E3A9000ECAC12 /* ScalarTensorArithmetic.swift in Sources */,
+				D65B758F2C261F5000667D79 /* pow.swift in Sources */,
 				D6B720B82C2258D400EB115D /* tiledMatMul.metal in Sources */,
 				D629A8B42C1F9C4700ECAC12 /* Int.swift in Sources */,
 				D6B720A42C220D3C00EB115D /* batchMatMul.metal in Sources */,
@@ -580,6 +606,7 @@
 				D629A8522C1E3A9000ECAC12 /* concat.swift in Sources */,
 				D629A8592C1E3A9000ECAC12 /* calculateStrides.swift in Sources */,
 				D629A8722C1E3AA400ECAC12 /* randn.swift in Sources */,
+				D65B75932C26304D00667D79 /* TensorType.swift in Sources */,
 				D629A8AE2C1F9BC800ECAC12 /* ShapeAlignment.swift in Sources */,
 				D629A8612C1E3A9000ECAC12 /* sqrt.swift in Sources */,
 				D6B721062C239C8400EB115D /* tanh.metal in Sources */,
@@ -591,7 +618,6 @@
 				D629A85D2C1E3A9000ECAC12 /* nestedArray.swift in Sources */,
 				D629A8D82C1F9E1900ECAC12 /* MPSBackendError.swift in Sources */,
 				D629A8D22C1F9E1900ECAC12 /* elementwiseDivision.metal in Sources */,
-				D6B720A02C220D1800EB115D /* dot.metal in Sources */,
 				D629A8572C1E3A9000ECAC12 /* stack.swift in Sources */,
 				D6B721032C239C8400EB115D /* relu.metal in Sources */,
 				D629A8D02C1F9E1900ECAC12 /* broadcastAddition.metal in Sources */,
@@ -615,6 +641,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D65B75912C261FAD00667D79 /* powTests.swift in Sources */,
 				D629A89B2C1E3B0000ECAC12 /* TensorInitFromNDArrayTests.swift in Sources */,
 				D65B75842C24AA0B00667D79 /* TensorSqueezeTests.swift in Sources */,
 				D65B75892C24C82300667D79 /* TensorAsTypeTests.swift in Sources */,
@@ -627,6 +654,7 @@
 				D6B720B42C223BA500EB115D /* TensorUnsqueezeTests.swift in Sources */,
 				D629A8A42C1E3B0000ECAC12 /* TensorVarianceTests.swift in Sources */,
 				D6B720A82C22118D00EB115D /* TensorMPSMatMulTests.swift in Sources */,
+				D65B758D2C26183000667D79 /* TensorTestNDimComputedVar.swift in Sources */,
 				D629A89E2C1E3B0000ECAC12 /* TensorMPSAdditionTests.swift in Sources */,
 				D629A8A12C1E3B0000ECAC12 /* TensorSquareRootTests.swift in Sources */,
 				D629A8302C1E39FC00ECAC12 /* TensorKitTests.swift in Sources */,
