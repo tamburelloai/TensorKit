@@ -68,7 +68,7 @@ extension MPSBackend {
     var result: Tensor<T> = zeros(1)
     guard let commandBuffer = commandQueue.makeCommandBuffer(),
           let commandEncoder = commandBuffer.makeComputeCommandEncoder(),
-          let computePipelineState = getComputePipeline(for: "dot") else {
+          let computePipelineState = getComputePipeline(for: "dot", ofType: T.self) else {
       fatalError("Failed to create command buffer or command encoder")
     }
     commandEncoder.setComputePipelineState(computePipelineState)
@@ -94,7 +94,7 @@ extension MPSBackend {
   func matMul<T:TensorData&Numeric>(_ lhs: Tensor<T>, _ rhs: Tensor<T>) -> Tensor<T> {
     guard let commandBuffer = commandQueue.makeCommandBuffer(),
           let commandEncoder = commandBuffer.makeComputeCommandEncoder(),
-          let computePipelineState = getComputePipeline(for: "matMul") else {
+          let computePipelineState = getComputePipeline(for: "matMul", ofType: T.self) else {
       fatalError("Failed to create command buffer or command encoder")
     }
     commandEncoder.setComputePipelineState(computePipelineState)
@@ -118,6 +118,7 @@ extension MPSBackend {
     commandEncoder.setBuffer(device.makeBuffer(bytes: &k, length: MemoryLayout<UInt32>.size, options: .storageModeShared), offset: 0, index: 4)
     commandEncoder.setBuffer(device.makeBuffer(bytes: &n, length: MemoryLayout<UInt32>.size, options: .storageModeShared), offset: 0, index: 5)
     
+    
     let threadCount: Int = result.data.count
     let threadGroupSize = MTLSize(width: 256, height: 1, depth: 1) // This should divide the grid size without remainder.
     let numThreadgroups = MTLSize(width: (threadCount + threadGroupSize.width - 1) / threadGroupSize.width, height: 1, depth: 1)
@@ -125,7 +126,7 @@ extension MPSBackend {
     commandEncoder.endEncoding()
     commandBuffer.commit()
     commandBuffer.waitUntilCompleted()
-    let resultPointer = resultBuffer.contents().bindMemory(to: Float.self, capacity: threadCount)
+    let resultPointer = resultBuffer.contents().bindMemory(to: T.self, capacity: threadCount)
     result.data = Array(UnsafeBufferPointer(start: resultPointer, count: threadCount)) as! [T]
     result.device = lhs.device
     return result
@@ -134,16 +135,16 @@ extension MPSBackend {
   func tiledMatMul<T:TensorData&Numeric>(_ lhs: Tensor<T>, _ rhs: Tensor<T>) -> Tensor<T> {
     guard let commandBuffer = commandQueue.makeCommandBuffer(),
           let commandEncoder = commandBuffer.makeComputeCommandEncoder(),
-          let computePipelineState = getComputePipeline(for: "tiledMatMul") else {
+          let computePipelineState = getComputePipeline(for: "tiledMatMul", ofType: T.self) else {
       fatalError("Failed to create command buffer or command encoder")
     }
     let M = lhs.shape[0]
     let K = lhs.shape[1]
     let N = rhs.shape[1]
     commandEncoder.setComputePipelineState(computePipelineState)
-    let bufferSizeA = M * K * MemoryLayout<Float>.size
-    let bufferSizeB = K * N * MemoryLayout<Float>.size
-    let bufferSizeC = M * N * MemoryLayout<Float>.size
+    let bufferSizeA = M * K * MemoryLayout<T>.size
+    let bufferSizeB = K * N * MemoryLayout<T>.size
+    let bufferSizeC = M * N * MemoryLayout<T>.size
     let bufferA = device.makeBuffer(bytes: lhs.data, length: bufferSizeA, options: .storageModeShared)
     let bufferB = device.makeBuffer(bytes: rhs.data, length: bufferSizeB, options: .storageModeShared)
     let bufferC = device.makeBuffer(length: bufferSizeC, options: .storageModeShared)
@@ -163,7 +164,7 @@ extension MPSBackend {
     let resultShape: [Int] = [M, N]
     var result: Tensor<T> = zeros(shape: resultShape)
     let threadCount: Int = result.data.count
-    let resultPointer = bufferC?.contents().bindMemory(to: Float.self, capacity: threadCount)
+    let resultPointer = bufferC?.contents().bindMemory(to: T.self, capacity: threadCount)
     result.data = Array(UnsafeBufferPointer(start: resultPointer, count: threadCount)) as! [T]
     result.device = lhs.device
     return result
@@ -174,7 +175,7 @@ extension MPSBackend {
     var result: Tensor<T> = zeros(shape: lhs.shape)
     guard let commandBuffer = commandQueue.makeCommandBuffer(),
           let commandEncoder = commandBuffer.makeComputeCommandEncoder(),
-          let computePipelineState = getComputePipeline(for: "elementwiseAddition") else {
+          let computePipelineState = getComputePipeline(for: "elementwiseAddition", ofType: T.self) else {
       fatalError("Failed to create command buffer or command encoder")
     }
     commandEncoder.setComputePipelineState(computePipelineState)
@@ -218,7 +219,7 @@ extension MPSBackend {
     var result: Tensor<T> = zeros(shape: lhs.shape)
     guard let commandBuffer = commandQueue.makeCommandBuffer(),
           let commandEncoder = commandBuffer.makeComputeCommandEncoder(),
-          let computePipelineState = getComputePipeline(for: "elementwiseAddition") else {
+          let computePipelineState = getComputePipeline(for: "elementwiseAddition", ofType: T.self) else {
       fatalError("Failed to create command buffer or command encoder")
     }
     commandEncoder.setComputePipelineState(computePipelineState)
@@ -246,7 +247,7 @@ extension MPSBackend {
     var result: Tensor<T> = zeros(shape: lhs.shape)
     guard let commandBuffer = commandQueue.makeCommandBuffer(),
           let commandEncoder = commandBuffer.makeComputeCommandEncoder(),
-          let computePipelineState = getComputePipeline(for: "elementwiseSubtraction") else {
+          let computePipelineState = getComputePipeline(for: "elementwiseSubtraction", ofType: T.self) else {
       fatalError("Failed to create command buffer or command encoder")
     }
     commandEncoder.setComputePipelineState(computePipelineState)
@@ -274,7 +275,7 @@ extension MPSBackend {
     var result: Tensor<T> = zeros(shape: lhs.shape)
     guard let commandBuffer = commandQueue.makeCommandBuffer(),
           let commandEncoder = commandBuffer.makeComputeCommandEncoder(),
-          let computePipelineState = getComputePipeline(for: "elementwiseMultiplication") else {
+          let computePipelineState = getComputePipeline(for: "elementwiseMultiplication", ofType: T.self) else {
       fatalError("Failed to create command buffer or command encoder")
     }
     commandEncoder.setComputePipelineState(computePipelineState)
@@ -302,7 +303,7 @@ extension MPSBackend {
     var result: Tensor<T> = zeros(shape: lhs.shape)
     guard let commandBuffer = commandQueue.makeCommandBuffer(),
           let commandEncoder = commandBuffer.makeComputeCommandEncoder(),
-          let computePipelineState = getComputePipeline(for: "elementwiseDivision") else {
+          let computePipelineState = getComputePipeline(for: "elementwiseDivision", ofType: T.self) else {
       fatalError("Failed to create command buffer or command encoder")
     }
     commandEncoder.setComputePipelineState(computePipelineState)

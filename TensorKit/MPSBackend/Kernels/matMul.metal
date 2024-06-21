@@ -12,7 +12,7 @@ using namespace metal;
 /// `tensorA` and `tensorB` are passed to buffers (memory allocations on the GPU), and then
 /// a thread is assigned to each of them. The results are stored in `tensorC`, which has its own buffer
 /// and will be read back to the CPU to get our summed result.
-kernel void matMul(
+kernel void matMul_Float(
                           const device float* tensorA [[buffer(0)]],
                           const device float* tensorB [[buffer(1)]],
                           device float* tensorC [[buffer(2)]],
@@ -24,6 +24,24 @@ kernel void matMul(
   uint row = id / N;
   uint col = id % N;
   float sum = 0.0;
+  for (uint k = 0; k < K; ++k) {
+    sum += tensorA[row*K+k] * tensorB[k*N+col];
+  }
+  tensorC[row*N+col] = sum;
+}
+
+kernel void matMul_Int(
+                          const device long* tensorA [[buffer(0)]],
+                          const device long* tensorB [[buffer(1)]],
+                          device long* tensorC [[buffer(2)]],
+                          constant uint& M [[buffer(3)]],
+                          constant uint& K [[buffer(4)]],
+                          constant uint& N [[buffer(5)]],
+                          uint id [[thread_position_in_grid]])
+{
+  uint row = id / N;
+  uint col = id % N;
+  long sum = 0;
   for (uint k = 0; k < K; ++k) {
     sum += tensorA[row*K+k] * tensorB[k*N+col];
   }

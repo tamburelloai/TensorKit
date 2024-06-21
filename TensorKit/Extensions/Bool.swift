@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
-extension Bool: TensorData {
-  public static var zero: Bool { return false }
-}
+//
+//extension Bool: TensorData {
+//  public static var zero: Bool { return false }
+//}

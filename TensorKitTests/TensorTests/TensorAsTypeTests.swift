@@ -1,14 +1,15 @@
 //
-//  onesTests.swift
-//  ScorchTests
+//  TensorAsTypeTests.swift
+//  TensorKitTests
 //
-//  Created by Michael Tamburello on 6/8/24.
+//  Created by Michael Tamburello on 6/20/24.
 //
 
 import XCTest
+import Foundation
 @testable import TensorKit
 
-final class onesTests: XCTestCase {
+final class TensorAsTypeTests: XCTestCase {
   
   override func setUpWithError() throws {
     // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -33,30 +34,10 @@ final class onesTests: XCTestCase {
     }
   }
   
-  func testTensorOnes() {
-    var M: Int = Int.random(in: 1...10)
-    var N: Int = Int.random(in: 1...10)
-    let tensorInt: Tensor<Int> = ones(M, N)
-    XCTAssertEqual(tensorInt.shape, [M, N])
-    XCTAssertEqual(tensorInt.data.count, M*N)
-    XCTAssertEqual(tensorInt.data.reduce(0, +), M*N)
-    
-    M = Int.random(in: 1...10)
-    N = Int.random(in: 1...10)
-    let tensorFloat: Tensor<Float> = ones(M, N)
-    XCTAssertEqual(tensorFloat.shape, [M, N])
-    XCTAssertEqual(tensorFloat.data.count, M*N)
-    XCTAssertEqual(tensorFloat.data.reduce(Float(0), +), Float(M*N))
-    
-    M = Int.random(in: 1...10)
-    N = Int.random(in: 1...10)
-    let tensorBool: Tensor<Bool> = ones(M, N)
-    XCTAssertEqual(tensorBool.shape, [M, N])
-    XCTAssertEqual(tensorBool.data.count, M*N)
-    let ints = tensorBool.data.map { $0 ? 1 : 0 }
-    XCTAssertEqual(ints.reduce(0, +), Int(M*N))
-
-
-  }
+//  func testFloatToInt() {
+//    let x: Tensor<Float> = Tensor([1.0, 2.0, 3.0, 4.0])
+//    let y: Tensor<Int> = x.astype(Int.self)
+//  }
+  
   
 }

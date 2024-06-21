@@ -7,12 +7,12 @@
 
 import Foundation
 
-public func ones<T: TensorData>(shape: [Int]) -> Tensor<T> where T: Numeric {
+public func ones<T: TensorData>(shape: [Int], device: DeviceType = .cpu) -> Tensor<T> {
   let totalElements = shape.reduce(1, *)
-  let onesData: [T] = Array(repeating: T.zero + 1, count: totalElements)
+  let onesData: [T] = Array(repeating: T.one, count: totalElements)
   return Tensor(data: onesData, shape: shape)
 }
 
-public func ones<T: TensorData>(_ shape: Int...) -> Tensor<T> where T: Numeric {
+public func ones<T: TensorData>(_ shape: Int..., device: DeviceType = .cpu) -> Tensor<T> {
   ones(shape: shape)
 }

@@ -32,6 +32,7 @@ final class randnTests: XCTestCase {
       // Put the code you want to measure the time of here.
     }
   }
+  
   func testTensorRandn() {
     // testing individual integer init
     let M: Int = Int.random(in: 1...10)

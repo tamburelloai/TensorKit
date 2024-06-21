@@ -91,15 +91,13 @@ final class TensorUnsqueezeTests: XCTestCase {
   }
   
   
-  //TODO: implement init empty tensor and then include this test
-//  func testUnsqueezeEmpty() {
-//    let device: DeviceType = .cpu
-//    let t: Tensor<Float> = Tensor([]).to(device)
-//    let result = t.unsqueeze(0)
-//    XCTAssertEqual(result.shape, [1])
-//    XCTAssertEqual(result.data, t.data)
-//    XCTAssertEqual(result.device, device)
-//  }
-  
+  func testUnsqueezeEmpty() {
+    let device: DeviceType = .cpu
+    let t: Tensor<Float> = Tensor([]).to(device)
+    let result = t.unsqueeze(0)
+    XCTAssertEqual(result.shape, [1])
+    XCTAssertEqual(result.data, t.data)
+    XCTAssertEqual(result.device, device)
+  }
   
 }

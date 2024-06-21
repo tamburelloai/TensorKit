@@ -70,37 +70,24 @@ final class TensorMPSDotProductTests: XCTestCase {
     XCTAssertEqual(result.device, device)
   }
   
-  //TODO: figure out how to have both assertions and tests to ensure those
-  // assertions are failed (resulting in passing test when that is supposed to be the case
-  // without having to use optionals, if let and all of that.
-//  func testStaticDotProduct2DWrongShapes() {
-//    let device: DeviceType = .mps
-//    let t1: Tensor<Float> = Tensor([[1, 2, 3]]).to(device)
-//    let t2: Tensor<Float> = Tensor([[1, 2, 3]]).to(device)
-//    XCTAssertThrowsError(try Tensor.dot(t1, t2))
-//  }
   
- 
-  
-  
-  //TODO: fix dot to allow for Int type
-  //  func testDotDifferentDataTypes() {
-  //      let device: DeviceType = .mps
-  //      let t1: Tensor<Int> = Tensor([
-  //        [1, 2],
-  //        [3, 4]
-  //      ]).to(device)
-  //      let t2: Tensor<Int> = Tensor([
-  //        [5, 6],
-  //        [7, 8]
-  //      ]).to(device)
-  //
-  //      let result = t1.matMul(t2)
-  //      XCTAssertEqual(result.nestedArray() as! [[Int]], [[19, 22], [43, 50]])
-  //      XCTAssertEqual(result.data, [19, 22, 43, 50])
-  //      XCTAssertEqual(result.shape, [t1.shape[0], t2.shape[1]])
-  //      XCTAssertEqual(result.device, device)
-  //  }
+  func testDotDifferentDataTypes() {
+    let device: DeviceType = .mps
+    let t1: Tensor<Int> = Tensor([
+      [1, 2],
+      [3, 4]
+    ]).to(device)
+    let t2: Tensor<Int> = Tensor([
+      [5, 6],
+      [7, 8]
+    ]).to(device)
+    
+    let result: Tensor<Int> = t1.matMul(t2)
+    XCTAssertEqual(result.nestedArray() as! [[Int]], [[19, 22], [43, 50]])
+    XCTAssertEqual(result.data, [19, 22, 43, 50])
+    XCTAssertEqual(result.shape, [t1.shape[0], t2.shape[1]])
+    XCTAssertEqual(result.device, device)
+  }
   
 }
 

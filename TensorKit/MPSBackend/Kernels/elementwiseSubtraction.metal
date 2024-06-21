@@ -8,7 +8,7 @@
 #include <metal_stdlib>
 using namespace metal;
 
-kernel void elementwiseSubtraction(
+kernel void elementwiseSubtraction_Float(
   const device float* tensorA [[buffer(0)]],
   const device float* tensorB [[buffer(1)]],
   device float* result [[buffer(2)]],
@@ -16,4 +16,14 @@ kernel void elementwiseSubtraction(
 {
   result[index] = tensorA[index] - tensorB[index];
 }
+
+kernel void elementwiseSubtraction_Int(
+  const device int* tensorA [[buffer(0)]],
+  const device int* tensorB [[buffer(1)]],
+  device int* result [[buffer(2)]],
+  uint index [[thread_position_in_grid]])
+{
+  result[index] = tensorA[index] - tensorB[index];
+}
+
 

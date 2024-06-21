@@ -9,12 +9,18 @@ import Foundation
 
 extension Tensor {
   public init(_ values: Any) {
+    if let array = values as? [Any], array.isEmpty {
+      self.init(data: [], shape: [], device: .cpu)
+      return
+    }
     let (data, shape): ([T], [Int]) = Tensor.processValues(values: values)
     self.init(data: data, shape: shape, device: .cpu)
   }
+  
+  
   // Initializer for creating a tensor from existing data and a given shape
   public init(data: [T], shape: [Int], device: DeviceType = .cpu) {
-    assert(data.count == shape.reduce(1, *), "Data count does not match product of shape dimensions.")
+    assert(shape.isEmpty || data.count == shape.reduce(1, *), "Data count does not match product of shape dimensions.")
     self.data = data
     self.shape = shape
     self.strides = Tensor.calculateStrides(for: shape)

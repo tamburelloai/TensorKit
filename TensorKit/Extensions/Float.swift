@@ -7,10 +7,9 @@
 
 import Foundation
 
-// TODO: Change this.
+// **TODO: Change this.**
 
-extension Float: TensorData {
-  public static var zero: Float { return 0.0 }
+extension Float {
   
   static func sampleFromUniform(a: Float, b: Float) -> Float {
     precondition(a < b, "Lower bound 'a' must be less than upper bound 'b'")
@@ -24,11 +23,5 @@ extension Float: TensorData {
     let z0 = sqrt(-2.0 * log(u1)) * cos(2.0 * .pi * u2)
     return z0 * sigma + mu
   }
-  
-  static func _exp(_ x: Float) -> Float {
-    return exp(x)
-  }
-  
-  
 }
 

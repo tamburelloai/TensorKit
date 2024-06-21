@@ -7,6 +7,7 @@
 
 import Foundation
 
-extension Tensor where T: TensorData & FloatingPoint {
-  //TODO: Implement
-}
+// TODO: Implement slicing
+//extension Tensor {
+//  func slice() {}
+//}

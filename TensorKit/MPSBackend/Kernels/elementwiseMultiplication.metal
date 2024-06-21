@@ -9,10 +9,20 @@
 using namespace metal;
 
 
-kernel void elementwiseMultiplication(
+kernel void elementwiseMultiplication_Float(
   const device float* tensorA [[buffer(0)]],
   const device float* tensorB [[buffer(1)]],
   device float* result [[buffer(2)]],
+  uint index [[thread_position_in_grid]])
+{
+  result[index] = tensorA[index] * tensorB[index];
+}
+
+
+kernel void elementwiseMultiplication_Int(
+  const device int* tensorA [[buffer(0)]],
+  const device int* tensorB [[buffer(1)]],
+  device int* result [[buffer(2)]],
   uint index [[thread_position_in_grid]])
 {
   result[index] = tensorA[index] * tensorB[index];

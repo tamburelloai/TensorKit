@@ -9,7 +9,7 @@ import Foundation
 
 
 
-extension Int: TensorData {
-  public static var zero: Int { return 0 }
-}
-
+//extension Int: TensorData {
+//  public static var zero: Int { return 0 }
+//}
+//

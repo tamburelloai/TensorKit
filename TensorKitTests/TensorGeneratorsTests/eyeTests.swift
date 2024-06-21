@@ -42,15 +42,21 @@ final class eyeTests: XCTestCase {
     XCTAssertEqual(tensor.data.reduce(0, +), N)
     XCTAssertEqual(tensor.data[0], 1)
 
-    let P: Int = Int.random(in: 1...100)
+    let P: Int = Int.random(in: 1...10)
     let floatTensor: Tensor<Float> = eye(P)
     XCTAssertEqual(floatTensor.shape, [P, P])
     XCTAssertEqual(floatTensor.data.count, P*P)
     XCTAssertEqual(floatTensor.data.reduce(0, +), Float(P))
     XCTAssertEqual(floatTensor.data[0], Float(1.0))
 
+    let Q: Int = 3
+    let boolTensor : Tensor<Bool> = eye(Q)
+    XCTAssertEqual(boolTensor.shape, [Q, Q])
+    XCTAssertEqual(boolTensor.data.count, Q*Q)
+    XCTAssertEqual(boolTensor.nestedArray() as! [[Bool]], [[true, false, false],
+                                                            [false, true, false],
+                                                            [false, false, true]])
+
   }
-
-
   
 }

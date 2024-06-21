@@ -7,17 +7,18 @@
 
 import Foundation
 
-public func eye<T: TensorData>(shape: Int) -> Tensor<T> where T: Numeric, T: ExpressibleByIntegerLiteral {
-  var values: [[T]] = []
-  var tmp: [T] = []
-  for i in 0..<shape {
-    tmp = Array(repeating: T.zero, count: shape)
-    tmp[i] = T.zero + 1
-    values.append(tmp)
+public func eye<T: TensorData>(size: Int, device: DeviceType = .cpu) -> Tensor<T> {
+  var shape: [Int] = [size, size] // NxN matrix
+  var strides: [Int] = Tensor<T>.calculateStrides(for: shape)
+  var data: [T] = Array(repeating: T.zero, count: shape.reduce(1, *))
+  for i in 0..<data.count {
+    if (i == 0) || (i % (strides[0] + strides[1]) == 0) {
+      data[i] = T.one
+    }
   }
-  return Tensor(values)
+  return Tensor(data: data, shape: shape, strides: strides, device: device)
 }
 
-public func eye<T: TensorData>(_ shape: Int) -> Tensor<T> where T: Numeric, T: ExpressibleByIntegerLiteral {
-  eye(shape: shape)
+public func eye<T: TensorData>(_ size: Int, device: DeviceType = .cpu) -> Tensor<T> {
+  eye(size: size, device: device)
 }
