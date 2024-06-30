@@ -72,7 +72,7 @@ final class TensorMPSAdditionTests: XCTestCase {
      [1.0,2.0,3.0, 4.0]
     ]
     let output: Tensor<Float> = t1 + t2
-    XCTAssertEqual(output.nestedArray() as! [[Float]], t3)
+    XCTAssertEqual(output.nestedArray as! [[Float]], t3)
   }
   
   func testBroadcastAddition2() {
@@ -89,7 +89,7 @@ final class TensorMPSAdditionTests: XCTestCase {
      [3.0, 3.0, 3.0, 3.0]
     ]
     let output: Tensor<Float> = t1 + t2
-    XCTAssertEqual(output.nestedArray() as! [[Float]], t3)
+    XCTAssertEqual(output.nestedArray as! [[Float]], t3)
   }
   
   func testBroadcastAddition3() {
@@ -102,7 +102,7 @@ final class TensorMPSAdditionTests: XCTestCase {
       [3, 3, 3]
     ]
     let output: Tensor<Float> = t1 + t2
-    XCTAssertEqual(output.nestedArray() as! [[Float]], t3)
+    XCTAssertEqual(output.nestedArray as! [[Float]], t3)
     
     let t4: Tensor<Float> = Tensor(data: [1.0, 2.0, 3.0], shape: [1, 3])
     let t5: Tensor<Float> = zeros(3, 3)
@@ -113,7 +113,7 @@ final class TensorMPSAdditionTests: XCTestCase {
       [1, 2, 3]
     ]
     let output2: Tensor<Float> = t4 + t5
-    XCTAssertEqual(output2.nestedArray() as! [[Float]], t6)
+    XCTAssertEqual(output2.nestedArray as! [[Float]], t6)
   }
   
   

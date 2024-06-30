@@ -8,6 +8,9 @@
 import Foundation
 
 extension Tensor {
+  
+  //TODO: Implement permute and .T and distinguish clearly in documentaion
+  
   public mutating func transpose(_ dim0: Int, _ dim1: Int) {
     assert(dim0 < shape.count && dim1 < shape.count, "Dimension indices are out of bounds.")
     shape.swapAt(dim0, dim1)   // Swap the shape dimensions

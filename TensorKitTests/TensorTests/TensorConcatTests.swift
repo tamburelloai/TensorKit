@@ -157,7 +157,7 @@ final class TensorConcatTests: XCTestCase {
     ]
     let tensor3 = Tensor.concat([tensor1, tensor2], dim: 2)
     XCTAssertEqual(tensor3.shape, [2, 2, 7])
-    XCTAssertEqual(tensor3.nestedArray() as! [[[Float]]], correctOutputTensor)
+    XCTAssertEqual(tensor3.nestedArray as! [[[Float]]], correctOutputTensor)
   }
   
   func testConcatThreeDimValuePlacementNestedInit_dim1() {
@@ -242,7 +242,7 @@ final class TensorConcatTests: XCTestCase {
       ]
     let tensor3 = Tensor.concat([tensor1, tensor2], dim: 1)
     XCTAssertEqual(tensor3.shape, [2, 13, 5])
-    XCTAssertEqual(tensor3.nestedArray() as! [[[Float]]], correctOutputTensor)
+    XCTAssertEqual(tensor3.nestedArray as! [[[Float]]], correctOutputTensor)
   }
   
   
@@ -392,7 +392,7 @@ final class TensorConcatTests: XCTestCase {
     
     let tensor3 = Tensor.concat([tensor1, tensor2], dim: 0)
     XCTAssertEqual(tensor3.shape, [12, 3, 5])
-    XCTAssertEqual(tensor3.nestedArray() as! [[[Float]]], correctOutputTensor)
+    XCTAssertEqual(tensor3.nestedArray as! [[[Float]]], correctOutputTensor)
   }
   
   

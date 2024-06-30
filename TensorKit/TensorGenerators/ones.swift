@@ -16,3 +16,9 @@ public func ones<T: TensorData>(shape: [Int], device: DeviceType = .cpu) -> Tens
 public func ones<T: TensorData>(_ shape: Int..., device: DeviceType = .cpu) -> Tensor<T> {
   ones(shape: shape)
 }
+
+public func ones<T: TensorData>(like tensor: Tensor<T>) -> Tensor<T> {
+  let totalElements = tensor.shape.reduce(1, *)
+  let onesData: [T] = Array(repeating: T.one, count: totalElements)
+  return Tensor(data: onesData, shape: tensor.shape, device: tensor.device)
+}

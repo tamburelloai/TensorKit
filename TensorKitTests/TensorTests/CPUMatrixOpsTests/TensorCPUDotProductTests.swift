@@ -39,7 +39,7 @@ final class TensorCPUDotProductTests: XCTestCase {
     ]).to(device)
     
     let result = Tensor.matMul(t1, t2)
-    XCTAssertEqual(result.nestedArray() as! [[Float]], [[10.0, 10], [20, 22]])
+    XCTAssertEqual(result.nestedArray as! [[Float]], [[10.0, 10], [20, 22]])
     XCTAssertEqual(result.data, [10.0, 10.0, 20.0, 22.0])
     XCTAssertEqual(result.shape, [t1.shape[0], t2.shape[1]])
     XCTAssertEqual(result.device, device)
@@ -58,7 +58,7 @@ final class TensorCPUDotProductTests: XCTestCase {
     ]).to(device)
     
     let result = t1.matMul(t2)
-    XCTAssertEqual(result.nestedArray() as! [[Float]], [[10.0, 10], [20, 22]])
+    XCTAssertEqual(result.nestedArray as! [[Float]], [[10.0, 10], [20, 22]])
     XCTAssertEqual(result.data, [10.0, 10.0, 20.0, 22.0])
     XCTAssertEqual(result.shape, [t1.shape[0], t2.shape[1]])
     XCTAssertEqual(result.device, device)
@@ -77,7 +77,7 @@ final class TensorCPUDotProductTests: XCTestCase {
       ]).to(device)
       
       let result = t1.matMul(identity)
-      XCTAssertEqual(result.nestedArray() as! [[Float]], [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
+      XCTAssertEqual(result.nestedArray as! [[Float]], [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
       XCTAssertEqual(result.data, t1.data)
       XCTAssertEqual(result.shape, t1.shape)
       XCTAssertEqual(result.device, device)
@@ -95,7 +95,7 @@ final class TensorCPUDotProductTests: XCTestCase {
       ]).to(device)
       
       let result = t1.matMul(zeroMatrix)
-      XCTAssertEqual(result.nestedArray() as! [[Float]], [[0.0, 0.0], [0.0, 0.0]])
+      XCTAssertEqual(result.nestedArray as! [[Float]], [[0.0, 0.0], [0.0, 0.0]])
       XCTAssertEqual(result.data, [0.0, 0.0, 0.0, 0.0])
       XCTAssertEqual(result.shape, [t1.shape[0], zeroMatrix.shape[1]])
       XCTAssertEqual(result.device, device)
@@ -113,7 +113,7 @@ final class TensorCPUDotProductTests: XCTestCase {
         ]).to(device)
   
         let result = t1.dot(t2)
-        XCTAssertEqual(result.nestedArray() as! [[Int]], [[19, 22], [43, 50]])
+        XCTAssertEqual(result.nestedArray as! [[Int]], [[19, 22], [43, 50]])
         XCTAssertEqual(result.data, [19, 22, 43, 50])
         XCTAssertEqual(result.shape, [t1.shape[0], t2.shape[1]])
         XCTAssertEqual(result.device, device)

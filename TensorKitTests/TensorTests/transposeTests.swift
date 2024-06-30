@@ -21,10 +21,10 @@ extension TensorTests {
     XCTAssertEqual(rowTensor.data, columnTensor.data)
     XCTAssertEqual(rowTensor.data, rowToColumn.data)
     XCTAssertEqual(columnTensor.data, columnToRow.data)
-    XCTAssertEqual(rowTensor.nestedArray() as! [[Float]], values)
-    XCTAssertEqual(columnTensor.nestedArray() as! [[Float]], transposedValues)
-    XCTAssertEqual(rowToColumn.nestedArray() as! [[Float]], transposedValues)
-    XCTAssertEqual(columnToRow.nestedArray() as! [[Float]], values)
+    XCTAssertEqual(rowTensor.nestedArray as! [[Float]], values)
+    XCTAssertEqual(columnTensor.nestedArray as! [[Float]], transposedValues)
+    XCTAssertEqual(rowToColumn.nestedArray as! [[Float]], transposedValues)
+    XCTAssertEqual(columnToRow.nestedArray as! [[Float]], values)
   }
   
   func test2DTransposeVectorMutating() {
@@ -34,8 +34,8 @@ extension TensorTests {
     let rowTensor: Tensor<Float> = Tensor(values)
     let columnTensor: Tensor<Float> = Tensor(transposedValues)
     XCTAssertEqual(rowTensor.transpose(dim0: 0, dim1: 1).data, columnTensor.data)
-    XCTAssertEqual(columnTensor.transpose(dim0: 0, dim1: 1).nestedArray() as! [[Float]], values)
-    XCTAssertEqual(rowTensor.transpose(dim0: 0, dim1: 1).nestedArray() as! [[Float]],  rowTensor.transpose(dim0: 1, dim1: 0).nestedArray() as! [[Float]])
+    XCTAssertEqual(columnTensor.transpose(dim0: 0, dim1: 1).nestedArray as! [[Float]], values)
+    XCTAssertEqual(rowTensor.transpose(dim0: 0, dim1: 1).nestedArray as! [[Float]],  rowTensor.transpose(dim0: 1, dim1: 0).nestedArray as! [[Float]])
   }
   
   func test3DTranspose() {
@@ -56,7 +56,7 @@ extension TensorTests {
     // Transpose dimensions 0 and 1
     var transposedTensor = tensor
     transposedTensor.transpose(0, 1)
-    XCTAssertEqual(transposedTensor.transpose(dim0: 0, dim1: 1).nestedArray() as! [[[Float]]], values)
+    XCTAssertEqual(transposedTensor.transpose(dim0: 0, dim1: 1).nestedArray as! [[[Float]]], values)
     XCTAssertEqual(transposedTensor.transpose(dim0: 0, dim1: 2).data,  tensor.data)
   }
   

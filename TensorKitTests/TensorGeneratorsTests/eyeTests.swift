@@ -53,7 +53,7 @@ final class eyeTests: XCTestCase {
     let boolTensor : Tensor<Bool> = eye(Q)
     XCTAssertEqual(boolTensor.shape, [Q, Q])
     XCTAssertEqual(boolTensor.data.count, Q*Q)
-    XCTAssertEqual(boolTensor.nestedArray() as! [[Bool]], [[true, false, false],
+    XCTAssertEqual(boolTensor.nestedArray as! [[Bool]], [[true, false, false],
                                                             [false, true, false],
                                                             [false, false, true]])
 

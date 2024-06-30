@@ -18,7 +18,7 @@ final class ZerosLikeTests: XCTestCase {
     XCTAssertEqual(zeros1.data.count, x.shape.reduce(1, *))
     XCTAssertEqual(zeros1.shape, zeros2.shape)
     XCTAssertEqual(zeros1.device, zeros2.device)
-    XCTAssertEqual(zeros1.nestedArray() as! [[Float]], zeros2.nestedArray() as! [[Float]])
+    XCTAssertEqual(zeros1.nestedArray as! [[Float]], zeros2.nestedArray as! [[Float]])
     XCTAssertEqual(x.shape, zeros1.shape)
     XCTAssertEqual(x.device, zeros1.device)
   }
